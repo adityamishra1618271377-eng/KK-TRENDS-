@@ -3,121 +3,118 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KK Trends Store</title>
+<title>KK Trends</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
 
 <style>
-body { margin:0; font-family: Arial; background:#f4f4f4; }
-
-header {
-  background:#000;
-  color:#fff;
-  text-align:center;
-  padding:20px;
+body {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  background: #f8f8f8;
 }
 
-.products {
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-  gap:20px;
-  padding:20px;
+header {
+  background: black;
+  color: white;
+  padding: 15px;
+  text-align: center;
+}
+
+.hero {
+  padding: 40px;
+  text-align: center;
+  background: #111;
+  color: white;
+}
+
+.container {
+  padding: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
+  gap: 20px;
 }
 
 .card {
-  background:#fff;
-  padding:15px;
-  border-radius:10px;
-  text-align:center;
-  box-shadow:0 5px 15px rgba(0,0,0,0.1);
+  background: white;
+  border-radius: 12px;
+  padding: 10px;
+  text-align: center;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
 }
 
 .card img {
-  width:100%;
-  height:220px;
-  object-fit:cover;
-  border-radius:10px;
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 10px;
 }
 
 button {
-  width:100%;
-  padding:10px;
-  margin-top:8px;
-  border:none;
-  cursor:pointer;
+  padding: 10px;
+  margin-top: 5px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
-.buy { background:#000; color:#fff; }
-.cod { background:green; color:#fff; }
-
-footer {
-  background:#000;
-  color:#fff;
-  text-align:center;
-  padding:20px;
+.buy {
+  background: black;
+  color: white;
 }
 
+.whatsapp {
+  background: #25D366;
+  color: white;
+}
 </style>
+
 </head>
 
 <body>
 
 <header>
-<h1>KK Trends Store</h1>
-<p>Fashion | Trends | Best Deals 🔥</p>
+  <h2>KK Trends</h2>
 </header>
 
-<section class="products">
-
-<div class="card">
-<img src="https://via.placeholder.com/300" id="img1">
-<h3 id="name1">T-Shirt</h3>
-<p>₹<span id="price1">499</span></p>
-
-<button class="buy" onclick="payNow(499)">Pay Online</button>
-<button class="cod" onclick="codOrder('T-Shirt')">Cash on Delivery</button>
+<div class="hero">
+  <h1>Style That Defines You</h1>
+  <p>Shop premium products at best price</p>
 </div>
 
-<div class="card">
-<img src="https://via.placeholder.com/300" id="img2">
-<h3 id="name2">Shoes</h3>
-<p>₹<span id="price2">999</span></p>
-
-<button class="buy" onclick="payNow(999)">Pay Online</button>
-<button class="cod" onclick="codOrder('Shoes')">Cash on Delivery</button>
-</div>
-
-</section>
-
-<footer>
-<p>📞 9136905355</p>
-<p>📧 kktrend0@gmail.com</p>
-<p>© 2026 KK Trends</p>
-</footer>
-
-<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<div class="container" id="products"></div>
 
 <script>
 
-// Razorpay Payment
-function payNow(amount){
-var options = {
-"key": "YOUR_RAZORPAY_KEY",
-"amount": amount * 100,
-"currency": "INR",
-"name": "KK Trends Store",
-"description": "Purchase Product",
-"handler": function (response){
-alert("Payment Successful!");
-}
-};
-var rzp1 = new Razorpay(options);
-rzp1.open();
+let products = JSON.parse(localStorage.getItem("products")) || [];
+
+// DISPLAY PRODUCTS
+function loadProducts(){
+  let html = "";
+  products.forEach((p,i)=>{
+    html += `
+      <div class="card">
+        <img src="${p.image}">
+        <h3>${p.name}</h3>
+        <p>₹${p.price}</p>
+
+        <button class="buy" onclick="orderNow('${p.name}', ${p.price})">Order Now</button>
+
+      </div>
+    `;
+  });
+
+  document.getElementById("products").innerHTML = html;
 }
 
-// Cash on Delivery (WhatsApp)
-function codOrder(product){
-let msg = "I want to order " + product + " (Cash on Delivery)";
-window.open("https://wa.me/919136905355?text=" + encodeURIComponent(msg));
+// WHATSAPP ORDER
+function orderNow(name, price){
+  let msg = `Hello, I want to order:\nProduct: ${name}\nPrice: ₹${price}`;
+  let url = `https://wa.me/919136905355?text=${encodeURIComponent(msg)}`;
+  window.open(url, "_blank");
 }
+
+loadProducts();
 
 </script>
 
