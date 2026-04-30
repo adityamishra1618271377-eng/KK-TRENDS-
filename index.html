@@ -1,160 +1,124 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>KK Trends Store</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KK Trends Store</title>
 
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f4f4f4;
-    }
+<style>
+body { margin:0; font-family: Arial; background:#f4f4f4; }
 
-    header {
-      background: black;
-      color: white;
-      text-align: center;
-      padding: 20px;
-    }
+header {
+  background:#000;
+  color:#fff;
+  text-align:center;
+  padding:20px;
+}
 
-    nav {
-      background: #222;
-      display: flex;
-      justify-content: center;
-    }
+.products {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:20px;
+  padding:20px;
+}
 
-    nav a {
-      color: white;
-      padding: 12px 20px;
-      text-decoration: none;
-    }
+.card {
+  background:#fff;
+  padding:15px;
+  border-radius:10px;
+  text-align:center;
+  box-shadow:0 5px 15px rgba(0,0,0,0.1);
+}
 
-    nav a:hover {
-      background: #555;
-    }
+.card img {
+  width:100%;
+  height:220px;
+  object-fit:cover;
+  border-radius:10px;
+}
 
-    .hero {
-      text-align: center;
-      padding: 50px;
-      background: white;
-    }
+button {
+  width:100%;
+  padding:10px;
+  margin-top:8px;
+  border:none;
+  cursor:pointer;
+}
 
-    .hero h1 {
-      margin-bottom: 10px;
-    }
+.buy { background:#000; color:#fff; }
+.cod { background:green; color:#fff; }
 
-    .products {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 20px;
-      padding: 20px;
-    }
+footer {
+  background:#000;
+  color:#fff;
+  text-align:center;
+  padding:20px;
+}
 
-    .card {
-      background: white;
-      padding: 15px;
-      border-radius: 12px;
-      text-align: center;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    }
-
-    .card img {
-      width: 100%;
-      border-radius: 10px;
-    }
-
-    .btn {
-      background: black;
-      color: white;
-      padding: 10px;
-      border: none;
-      cursor: pointer;
-      margin-top: 10px;
-      width: 100%;
-    }
-
-    .btn:hover {
-      background: #333;
-    }
-
-    .whatsapp {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background: #25D366;
-      color: white;
-      padding: 15px;
-      border-radius: 50%;
-      text-decoration: none;
-      font-size: 20px;
-    }
-
-    footer {
-      background: black;
-      color: white;
-      text-align: center;
-      padding: 15px;
-      margin-top: 20px;
-    }
-  </style>
+</style>
 </head>
 
 <body>
 
 <header>
-  <h1>KK Trends Store</h1>
-  <p>Latest Fashion & Trending Products 🔥</p>
+<h1>KK Trends Store</h1>
+<p>Fashion | Trends | Best Deals 🔥</p>
 </header>
-
-<nav>
-  <a href="#">Home</a>
-  <a href="#">Products</a>
-  <a href="#">Contact</a>
-</nav>
-
-<section class="hero">
-  <h1>Welcome to KK Trends</h1>
-  <p>Shop the Best Deals Online</p>
-</section>
 
 <section class="products">
 
-  <div class="card">
-    <img src="https://via.placeholder.com/250" alt="">
-    <h3>Stylish T-Shirt</h3>
-    <p>₹499</p>
-    <button class="btn" onclick="order()">Order Now</button>
-  </div>
+<div class="card">
+<img src="https://via.placeholder.com/300" id="img1">
+<h3 id="name1">T-Shirt</h3>
+<p>₹<span id="price1">499</span></p>
 
-  <div class="card">
-    <img src="https://via.placeholder.com/250" alt="">
-    <h3>Running Shoes</h3>
-    <p>₹999</p>
-    <button class="btn" onclick="order()">Order Now</button>
-  </div>
+<button class="buy" onclick="payNow(499)">Pay Online</button>
+<button class="cod" onclick="codOrder('T-Shirt')">Cash on Delivery</button>
+</div>
 
-  <div class="card">
-    <img src="https://via.placeholder.com/250" alt="">
-    <h3>Smart Watch</h3>
-    <p>₹799</p>
-    <button class="btn" onclick="order()">Order Now</button>
-  </div>
+<div class="card">
+<img src="https://via.placeholder.com/300" id="img2">
+<h3 id="name2">Shoes</h3>
+<p>₹<span id="price2">999</span></p>
+
+<button class="buy" onclick="payNow(999)">Pay Online</button>
+<button class="cod" onclick="codOrder('Shoes')">Cash on Delivery</button>
+</div>
 
 </section>
 
-<a class="whatsapp" href="https://wa.me/919167300600">💬</a>
-
 <footer>
-  <p>Contact: 9167300600</p>
-  <p>© 2026 KK Trends Store</p>
+<p>📞 9136905355</p>
+<p>📧 kktrend0@gmail.com</p>
+<p>© 2026 KK Trends</p>
 </footer>
 
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
 <script>
-function order() {
-  window.open("https://wa.me/919167300600?text=I want to order product");
+
+// Razorpay Payment
+function payNow(amount){
+var options = {
+"key": "YOUR_RAZORPAY_KEY",
+"amount": amount * 100,
+"currency": "INR",
+"name": "KK Trends Store",
+"description": "Purchase Product",
+"handler": function (response){
+alert("Payment Successful!");
 }
+};
+var rzp1 = new Razorpay(options);
+rzp1.open();
+}
+
+// Cash on Delivery (WhatsApp)
+function codOrder(product){
+let msg = "I want to order " + product + " (Cash on Delivery)";
+window.open("https://wa.me/919136905355?text=" + encodeURIComponent(msg));
+}
+
 </script>
 
 </body>
